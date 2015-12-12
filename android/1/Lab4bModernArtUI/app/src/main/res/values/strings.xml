@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Modern Art UI</string>
+    <string name="action_settings">More Information</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="question">"Do you want to know more about MOMA?"</string>
+    <string name="not_now">"Not now"</string>
+    <string name="visit_moma">"Visit MOMA"</string>
+
+</resources>
