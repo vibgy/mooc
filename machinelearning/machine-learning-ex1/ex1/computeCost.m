@@ -10,9 +10,9 @@ m = length(y); % number of training examples
 % disp(theta)
 
 projection = X * theta;
-sqrError = (projection - y) .^ 2
+sqrError = (projection - y) .^ 2;
 % You need to return the following variables correctly 
-J = 1/(2*m) * sum(sqrError) ;
+J = 1/(2*m) * sum(sqrError);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta
