@@ -104,7 +104,10 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+% price = 0; % You should change this
+normSz = (1650 - mean(data(:, 1:1))) / std(data(:, 1:1))
+normBr = (3 - mean(data(:, 2:2))) / std(data(:, 2:2))
+price = [1 normSz normBr] * theta
 
 
 % ============================================================
