@@ -20,13 +20,17 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+nHypothesis = X * theta;
+hypothesis  = sigmoid(nHypothesis);
 
+derivativePart = diag(hypothesis - y) * X;
+grad  = (1 / m) * sum(derivativePart);
 
+costMatrix1 = -1 .* y .* log(hypothesis);
+costMatrix2 = (1 - y) .* log (1 - hypothesis);
+costMatrix  = costMatrix1 - costMatrix2;
 
-
-
-
-
+J = ( 1 / m ) * sum( costMatrix );
 % =============================================================
 
 end
