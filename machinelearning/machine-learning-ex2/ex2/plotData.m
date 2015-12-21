@@ -12,10 +12,21 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
+%%
+%for i=1:length(X)
+%    if (y(i) == 1)
+%        plot(X(i,1), X(i, 2), 'k+')
+%    else
+%        plot(X(i,1), X(i, 2), 'ko')
+%    end
+%end
+%
 
+pos = find(y==1);
+neg = find(y==0);
 
-
-
+plot(X(pos, 1), X(pos, 2), 'k+');
+plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y');
 
 
 
