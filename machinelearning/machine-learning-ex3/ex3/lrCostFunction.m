@@ -36,12 +36,18 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+% normal
+hypothesis = sigmoid(X * theta);
 
+derivativePart = diag(hypothesis - y) * X;
 
+temp = theta;
+temp(1) = 0;
+rTerm = lambda/(2*m) * sum(temp .* temp);
+J = 1.0/m * sum(-1 .* y .* log(hypothesis) - (1 - y) .* log(1 - hypothesis)) + rTerm;
 
-
-
-
+rGrad = lambda / m .* temp';
+grad = 1.0/m * (sum(derivativePart)) + rGrad;
 
 
 
