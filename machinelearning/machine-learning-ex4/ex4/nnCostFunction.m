@@ -65,16 +65,39 @@ Theta2_grad = zeros(size(Theta2));
 for i=1:num_labels
     a1 = [ones(m,1) X];
     z2 = a1 * Theta1';
-    a2 = sigmoid(z2);
-    a2New = [ones(m,1) a2];
-    z3 = a2New * Theta2';
-    hypothesis = sigmoid(z3);
+    a2Raw = sigmoid(z2);
+    a2 = [ones(m,1) a2Raw];
+    z3 = a2 * Theta2';
+    a3 = sigmoid(z3);
+
     yLabel = (y == i);
-    hypothesisLabel = hypothesis(:,i);
+    hypothesisLabel = a3(:,i);
     term1 = -1 .* yLabel .* log(hypothesisLabel);
     term2 = -1 .* (1 - yLabel) .* log(1 - hypothesisLabel);
     cost = ( 1/m ) * sum(term1 + term2);
     J = J + cost;
+    
+    %for t = 1:m
+        eyeM = eye(num_labels);
+        yM = eyeM(y,:);
+        delta3 = a3 - yM;
+        theta2NoBias = Theta2(:,2:end);
+        delta2 = (delta3 * theta2NoBias) .* sigmoidGradient(z2);
+        %delta2 = delta2(2:end);
+        D1 = delta2' * a1;
+        D2 = delta3' * a2;
+        Theta1_grad = (1/m) .* D1;
+        Theta2_grad = (1/m) .* D2;
+    %end
+    
+    tempTheta1 = Theta1;
+    tempTheta1(:,1) = zeros(size(Theta1,1),1);
+    r1 = lambda/m .* tempTheta1;
+    tempTheta2 = Theta2;
+    tempTheta2(:,1) = zeros(size(Theta2,1),1);
+    r2 = lambda/m .* tempTheta2;
+    Theta1_grad = Theta1_grad + r1;
+    Theta2_grad = Theta2_grad + r2;
 end
 
 th1 = Theta1;
