@@ -16,7 +16,11 @@ X_poly = zeros(numel(X), p);
 % 
 
 
-
+%for l = 1:size(X,1)
+    for k = 1:p
+        X_poly(:,k) = X(:,1).^k;
+    end
+%end
 
 
 
