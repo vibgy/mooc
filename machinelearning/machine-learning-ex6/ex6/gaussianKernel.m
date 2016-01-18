@@ -16,7 +16,9 @@ sim = 0;
 %
 %
 
-
+dist = x1 - x2;
+val = sum(dist .* dist);
+sim = exp(-1 * val/(2*sigma*sigma));
 
 
 
