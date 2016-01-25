@@ -25,7 +25,13 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
-
+for i = 1:K
+    whichIdx = idx == i;
+    newWhichIdx = repmat(whichIdx, [1, size(X,2)]);
+    whichValues = X .* newWhichIdx;
+    c = sum(whichIdx,1);
+    centroids(i,:) = (1/c) .* sum(whichValues,1);
+end
 
 
 

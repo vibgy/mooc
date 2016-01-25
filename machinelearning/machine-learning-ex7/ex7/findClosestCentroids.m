@@ -23,6 +23,7 @@ idx = zeros(size(X,1), 1);
 
 for i=1:size(X,1)
     dist = centroids - repmat(X(i,:),[K,1]);
+    other = zeros(K,1);
     for j=1:K
         other(j,1) = norm(dist(j,:));
     end
