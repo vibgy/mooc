@@ -1,4 +1,4 @@
-function [bestEpsilon bestF1] = selectThreshold(yval, pval)
+function [bestEpsilon, bestF1] = selectThreshold(yval, pval)
 %SELECTTHRESHOLD Find the best threshold (epsilon) to use for selecting
 %outliers
 %   [bestEpsilon bestF1] = SELECTTHRESHOLD(yval, pval) finds the best
@@ -23,17 +23,16 @@ for epsilon = min(pval):stepsize:max(pval)
     % Note: You can use predictions = (pval < epsilon) to get a binary vector
     %       of 0's and 1's of the outlier predictions
 
-
-
-
-
-
-
-
-
-
-
-
+    correctP = pval < epsilon;
+    tp = sum((correctP == 1) & (yval == 1));
+    fp = sum((correctP == 1) & (yval == 0));
+    % tn = sum((correctP == 0) & (yval == 0));
+    fn = sum((correctP == 0) & (yval == 1));
+    
+    prec = tp / (tp + fp);
+    reca = tp / (tp + fn);
+    
+    F1 = (2 * prec * reca) / (prec + reca);
 
     % =============================================================
 
