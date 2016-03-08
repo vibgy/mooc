@@ -100,12 +100,7 @@ function ObjParser(processObject, input, done) {
   });
 }
 
-// this is a singleton, we dont want multiple JSON parsers parsing from stdin
-var Processor;
-
 module.exports = function (processObject, input, done) {
-  if (!Processor) {
-    Processor = new ObjParser(processObject, input, done);
-  }
+  var Processor = new ObjParser(processObject, input, done);
   return Processor;
 };

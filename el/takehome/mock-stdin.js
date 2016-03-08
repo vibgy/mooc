@@ -12,10 +12,9 @@ function MockStdin() {
     callback();
   }
 
-  var read = function (n, callback) {
-    console.log(n);
+  var read = function (n) {
+    // console.log(data);
     this.push(data);
-    callback();
   }
 
   stream.Duplex.call(this, {read: read, write: write});
@@ -24,13 +23,9 @@ function MockStdin() {
 
 util.inherits(MockStdin, stream.Duplex);
 
-var singleton;
-
 module.exports = {
   stdin: function() {
-    if (!singleton) {
-      singleton = new MockStdin();
-    }
-    return singleton;
+    var s = new MockStdin();
+    return s;
   }
 }
