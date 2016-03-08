@@ -1,5 +1,6 @@
 var jsonParser = require('./jsonCmdLineParser.js');
 var Answers = require('./answers.js');
+var Config = require('./config.js');
 var DEBUG = process.env.DEBUG || 0;
 
 // Processes object provided by command line json object parser
@@ -37,19 +38,7 @@ function done() {
 }
 
 // initializing the post processing
-var answers = new Answers(
-  {
-    n: 5,
-    runningTimeThreshold: 60, // minutes
-    authorFor: ["cd", "book"],
-    randomCondition: function (item) {
-      // TODO: I'm not sure I understood this one properly
-      if ((item.title || item.tracks || item.chapter) && (item.year)) {
-        return true;
-      }
-      return false;
-    }
-  });
+var answers = new Answers(Config);
 
 // from stdin
 new jsonParser(processObj, process.stdin, done);

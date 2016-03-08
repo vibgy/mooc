@@ -1,4 +1,5 @@
 var assert = require('assert');
+var Answers = require('./answers.js');
 
 describe('Inventory Manager', function() {
 
@@ -37,7 +38,7 @@ describe('Inventory Manager', function() {
           // this should not hit
           assert(false);
         },
-        inp, 
+        inp,
         function() {
           done();
         });
@@ -58,7 +59,7 @@ describe('Inventory Manager', function() {
           // this should not hit
           assert(l.match(/test/));
         },
-        inp, 
+        inp,
         function() {
           done();
         });
@@ -84,8 +85,68 @@ describe('Inventory Manager', function() {
         });
     });
 
-    it('should find an item on the command line, for valid input', function () {
+    it.skip('should find an item on the command line, for valid input', function () {
       var p = new jsonParser(function() {}, process.stdin, function() {});
+    });
+
+  });
+
+  describe('Answers ', function () {
+    var answers = new Answers(
+      {
+        n: 5,
+        runningTimeThreshold: 60, // minutes
+        authorFor: ["cd", "book"],
+        randomCondition: function (item) {
+          // TODO: I'm not sure I understood this one properly
+          if ((item.title || item.tracks || item.chapter) && (item.year)) {
+            return true;
+          }
+          return false;
+        }
+      });
+    var testJson = require('./fixtures/test.json');
+    testJson.forEach( function (item) {
+      answers.process(item);
+    });
+
+    it('should provide top 5 most expensive items for all categories', function() {
+      var MostExpItems = {};
+      testJson.forEach( function (item) {
+        var type = item.type || 'default';
+        if (!MostExpItems[type]) MostExpItems[type] = {priceyItem : 0};
+        if (MostExpItems[type].priceyItem < item.price) MostExpItems[type].priceyItem = item.price || 0;
+      });
+
+      // lets check now
+      var pResults = answers.mostExpensiveItems();
+      var a = Object.keys(pResults);
+      a.forEach(function (key) {
+        assert(MostExpItems[key].priceyItem === pResults[key].getMostExpensive()[4]);
+      });
+    });
+
+    it('should provide list of cds with longer than 60 minute running time', function() {
+      var RunningTime = [];
+      testJson.forEach( function (item) {
+        var type = item.type || 'default';
+        if (type === "cd") {
+          item = require('./cd.js')().preProcessing(item);
+          if (item.runningTime > 60 * 60) {
+            RunningTime.push(item);
+          }
+        }
+      });
+
+      assert(RunningTime.length === answers.longRunningCDs().length);
+    });
+
+    it('should provide authors that have released CDs also', function() {
+
+    });
+
+    it('should provide items have a title, track, or chapter that contains a year', function() {
+
     });
 
   });
