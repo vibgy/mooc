@@ -1,6 +1,6 @@
 var symbolStack = [];
 var obj;
-var DEBUG = 1;
+var DEBUG = 0;
 
 // detect these combinations:
 // {
@@ -45,10 +45,11 @@ function containsStartAndEnd(line) {
   return null;
 }
 
-// expect only one { or } per line
+// TODO: Make this a singleton, we dont want multiple JSON parsers parsing from stdin
 function init(processObject, done) {
   var stream = require('readline').createInterface({
-    input: process.stdin
+    //input: process.stdin
+    input: require('fs').createReadStream('test.json')
   });
 
   stream.on('line', function (l) {
