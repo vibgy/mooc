@@ -42,4 +42,7 @@ var answers = new Answers(
       return false;
     }
   });
-new jsonParser(processObj, done);
+// from stdin
+new jsonParser(processObj, process.stdin, done);
+// from file
+// new jsonParser(processObj, require('fs').createReadStream('test.json'), done);

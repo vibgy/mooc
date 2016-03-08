@@ -45,10 +45,9 @@ function containsStartAndEnd(line) {
   return null;
 }
 
-function ObjParser(processObject, done) {
+function ObjParser(processObject, input, done) {
   var stream = require('readline').createInterface({
-    //input: process.stdin
-    input: require('fs').createReadStream('test.json')
+    input: input
   });
 
   stream.on('line', function (inputLine) {
@@ -104,9 +103,9 @@ function ObjParser(processObject, done) {
 // this is a singleton, we dont want multiple JSON parsers parsing from stdin
 var Processor;
 
-module.exports = function (processObject, done) {
+module.exports = function (processObject, input, done) {
   if (!Processor) {
-    Processor = new ObjParser(processObject, done);
+    Processor = new ObjParser(processObject, input, done);
   }
   return Processor;
 };
