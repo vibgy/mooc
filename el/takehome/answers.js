@@ -32,26 +32,33 @@ var PriceIdxTrackN = function(type, trackN) {
   this.getMostExpensive = function() {
     return topN;
   };
-
-  this.saveInDb = function() {
-    // stub for now
-  };
 };
 
 // this is not a singleton by design. we want to be able to provide multiple trackN indices
-function AnswerPricingIndex(n) {
+function Indexes(opts) {
+ var options = opts || {
+    n: 5,
+    runningTimeThreshold: 60, // minutes
+    authorFor: ["cd", "book"],
+    randomCondition: function (item) {
+      if ((item.title || item.track || item.chapter) && (item.year)) {
+        return true;
+      }
+      return false;
+    }
+  };
+
  return {
-  num: n,
   process: function(item) {
     var type = item.type || "default";
     try {
       PricingIndex[type].checkAndAdd(item);
     } catch (e) {
-      PricingIndex[type] = new PriceIdxTrackN(type, this.num);
+      PricingIndex[type] = new PriceIdxTrackN(type, options.n);
       PricingIndex[type].checkAndAdd(item);
     }
 
-    if ((item.title || item.track || item.chapter) && (item.year)) {
+    if (options.randomCondition(item)) {
       titleOrTrackOrChapterWithYear.push(item);
     }
 
@@ -60,22 +67,18 @@ function AnswerPricingIndex(n) {
     // Type specific processing
     if (type === "cd") {
       item = require('./cd.js')().preProcessing(item);
-      if (item.runningTime > 60 * 60) {
+      if (item.runningTime > options.runningTimeThreshold * 60) {
         RunningTimeIndex.push(item);
       }
-      AuthorIndex[item.author].hasCd = true;
     }
 
     // info about author
-    if (["book"].indexOf(type) >= 0) {
-      AuthorIndex[item.author].hasBook = true;
+    if (options.authorFor.indexOf(type) >= 0) {
+      AuthorIndex[item.author][type] = true;
     }
 
   },
-  categoryResults: function(type) {
-    return PricingIndex[type];
-  },
-  allResults: function() {
+  mostExpensiveItems: function() {
     return PricingIndex;
   },
   longRunningCDs: function() {
@@ -83,7 +86,11 @@ function AnswerPricingIndex(n) {
   },
   authorsWithCdAndBook: function() {
     return Object.keys(AuthorIndex).filter(function (item) {
-      return AuthorIndex[item].hasBook && AuthorIndex[item].hasCd;
+      var cond = true;
+      options.authorFor.forEach( function (key) {
+        cond = cond && AuthorIndex[item][key];
+      });
+      return cond;
     });
   },
   boringLastResult: function() {
@@ -92,4 +99,4 @@ function AnswerPricingIndex(n) {
  };
 }
 
-module.exports = AnswerPricingIndex;
+module.exports = Indexes;

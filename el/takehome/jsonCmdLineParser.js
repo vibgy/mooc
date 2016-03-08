@@ -57,10 +57,11 @@ function init(processObject, done) {
     var lines = l.replace(/\{/g, "\n\{").replace(/\}/g, "\n\}").trim().split("\n");
     if (DEBUG) console.log("Lines : ", lines);
     lines.forEach(function (l) {
+      var start, end;
       // find an object
       if (!obj) {
         // look for start;
-        var start = containsStartOfObject(l);
+        start = containsStartOfObject(l);
         if (start) {
           obj = start;
           symbolStack.push("{");
@@ -68,14 +69,14 @@ function init(processObject, done) {
         return;
       }
  
-      var start = containsStartOfObject(l);
+      start = containsStartOfObject(l);
       if (start) {
         obj = obj + start;
         symbolStack.push("{");
         return;
       }
  
-      var end = containsEndOfObject(l);
+      end = containsEndOfObject(l);
       if (end) {
         symbolStack.pop();
         if (symbolStack.length === 0) {
@@ -97,7 +98,6 @@ function init(processObject, done) {
 
   stream.on('close', function() {
     // call done when done
-    console.log("great");
     done();
   });
 }

@@ -9,14 +9,12 @@ function processObj(o) {
     if (DEBUG) console.log("After JSON.parse: ", ob);
     answers.process(ob);
   } catch (e) {
-    console.log("Oops ", e.message);
-    return;
+    console.log("Oops, could not parse or process ", o, e.message);
   }  
 }
 
 function done() {
-  console.log("done");
-  var pResults = answers.allResults();
+  var pResults = answers.mostExpensiveItems();
   var a = Object.keys(pResults);
   a.forEach(function (key) {
     console.log(pResults[key].getMostExpensive());
@@ -32,5 +30,16 @@ function done() {
   console.log(lastOne);
 }
 
-var answers = new Answers(5);
+var answers = new Answers(
+  {
+    n: 5,
+    runningTimeThreshold: 60, // minutes
+    authorFor: ["cd", "book"],
+    randomCondition: function (item) {
+      if ((item.title || item.track || item.chapter) && (item.year)) {
+        return true;
+      }
+      return false;
+    }
+  });
 new jsonParser(processObj, done);
