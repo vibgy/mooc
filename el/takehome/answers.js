@@ -1,4 +1,14 @@
-var PriceIndices = {};
+// top N expensive items
+var PricingIndex = {};
+
+// CDs longer than 60 minutes
+var RunningTimeIndex = [];
+
+// Data by author
+var AuthorIndex = {};
+
+// items have a title, track, or chapter that contains a year
+var titleOrTrackOrChapterWithYear = [];
 
 var PriceIdxTrackN = function(type, trackN) {
   // note the category
@@ -28,61 +38,52 @@ var PriceIdxTrackN = function(type, trackN) {
   };
 };
 
-// CDs longer than 60 minutes
-var longCds = [];
-
-// Data by author
-var AuthorData = {};
-
-// items have a title, track, or chapter that contains a year
-var titleOrTrackOrChapterWithYear = [];
-
 // this is not a singleton by design. we want to be able to provide multiple trackN indices
-function AnswerPriceIndices(n) {
+function AnswerPricingIndex(n) {
  return {
   num: n,
   process: function(item) {
     var type = item.type || "default";
     try {
-      PriceIndices[type].checkAndAdd(item);
+      PricingIndex[type].checkAndAdd(item);
     } catch (e) {
-      PriceIndices[type] = new PriceIdxTrackN(type, this.num);
-      PriceIndices[type].checkAndAdd(item);
+      PricingIndex[type] = new PriceIdxTrackN(type, this.num);
+      PricingIndex[type].checkAndAdd(item);
     }
 
     if ((item.title || item.track || item.chapter) && (item.year)) {
       titleOrTrackOrChapterWithYear.push(item);
     }
 
-    if (!AuthorData[item.author]) AuthorData[item.author] = {}; 
+    if (!AuthorIndex[item.author]) AuthorIndex[item.author] = {}; 
 
     // Type specific processing
     if (type === "cd") {
       item = require('./cd.js')().preProcessing(item);
       if (item.runningTime > 60 * 60) {
-        longCds.push(item);
+        RunningTimeIndex.push(item);
       }
-      AuthorData[item.author].hasCd = true;
+      AuthorIndex[item.author].hasCd = true;
     }
 
     // info about author
     if (["book"].indexOf(type) >= 0) {
-      AuthorData[item.author].hasBook = true;
+      AuthorIndex[item.author].hasBook = true;
     }
 
   },
   categoryResults: function(type) {
-    return PriceIndices[type];
+    return PricingIndex[type];
   },
   allResults: function() {
-    return PriceIndices;
+    return PricingIndex;
   },
   longRunningCDs: function() {
-    return longCds;
+    return RunningTimeIndex;
   },
   authorsWithCdAndBook: function() {
-    return Object.keys(AuthorData).filter(function (item) {
-      return AuthorData[item].hasBook && AuthorData[item].hasCd;
+    return Object.keys(AuthorIndex).filter(function (item) {
+      return AuthorIndex[item].hasBook && AuthorIndex[item].hasCd;
     });
   },
   boringLastResult: function() {
@@ -91,4 +92,4 @@ function AnswerPriceIndices(n) {
  };
 }
 
-module.exports = AnswerPriceIndices;
+module.exports = AnswerPricingIndex;

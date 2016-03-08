@@ -7,7 +7,7 @@ function processObj(o) {
   try {
     var ob = JSON.parse(o);
     if (DEBUG) console.log("After JSON.parse: ", ob);
-    AnswerPriceIndices.process(ob);
+    answers.process(ob);
   } catch (e) {
     console.log("Oops ", e.message);
     return;
@@ -16,21 +16,21 @@ function processObj(o) {
 
 function done() {
   console.log("done");
-  var pResults = AnswerPriceIndices.allResults();
+  var pResults = answers.allResults();
   var a = Object.keys(pResults);
   a.forEach(function (key) {
     console.log(pResults[key].getMostExpensive());
   });
 
-  var lCds = AnswerPriceIndices.longRunningCDs();
+  var lCds = answers.longRunningCDs();
   console.log(lCds);
 
-  var authors = AnswerPriceIndices.authorsWithCdAndBook();
+  var authors = answers.authorsWithCdAndBook();
   console.log(authors);
 
-  var lastOne = AnswerPriceIndices.boringLastResult();
+  var lastOne = answers.boringLastResult();
   console.log(lastOne);
 }
 
-var AnswerPriceIndices = new Answers(5);
+var answers = new Answers(5);
 new jsonParser(processObj, done);
