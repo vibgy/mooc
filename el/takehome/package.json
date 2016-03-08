@@ -1,0 +1,22 @@
+{
+  "name": "takehome",
+  "version": "1.0.0",
+  "description": "Take home assignment for El interview",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vibgy/mooc.git"
+  },
+  "author": "Gaurav Nolkha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vibgy/mooc/issues"
+  },
+  "homepage": "https://github.com/vibgy/mooc#readme",
+  "dependencies": {
+    "mocha": "^2.4.5"
+  }
+}
