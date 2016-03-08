@@ -8,7 +8,10 @@ answers.js:            Contains code to process the newly found item in input st
 
 cd.js:                 Contains code to post process a CD type, to calculate the total running time.
 
+options.js:            Contains the config for the indexes.
+
 test.js:               Contains testing code. I have used mocha test framework to test the code. 
+
 
 Installation
 ------------
@@ -17,7 +20,7 @@ Just clone the repo and goto el/takehome
 
 Running the code
 ----------------
-cat test.json | node index.js
+cat fixtures/test.json | node index.js
 
 Running the tests
 -----------------

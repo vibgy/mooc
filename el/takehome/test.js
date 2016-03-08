@@ -141,11 +141,11 @@ describe('Inventory Manager', function() {
       assert(RunningTime.length === answers.longRunningCDs().length);
     });
 
-    it('should provide authors that have released CDs also', function() {
+    it.skip('should provide authors that have released CDs also', function() {
 
     });
 
-    it('should provide items have a title, track, or chapter that contains a year', function() {
+    it.skip('should provide items have a title, track, or chapter that contains a year', function() {
 
     });
 
