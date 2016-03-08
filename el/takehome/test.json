@@ -34,5 +34,30 @@
 "type": "cd"
  },
  { "test" : 123 },
- { "bla": [ { "test" : 123 }, {"test1" : 234 } ] }
+ { "bla": [ { "test" : 123 }, {"test1" : 234 } ] },
+{
+"price": 15.99,
+"tracks": [
+ {"seconds": 3600, "name": "one"},
+ {
+ "seconds": 200,
+ "name": "two"
+ }
+],
+"year": 2000,
+"title": "baz",
+"author": "joan",
+"type": "cd"
+ },{
+"price": 15.99,
+"chapters": [
+ "one",
+ "two",
+ "three"
+],
+"year": 1999,
+"title": "foo",
+"author": "joan",
+"type": "book"
+ }
 ]

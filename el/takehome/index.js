@@ -17,12 +17,20 @@ debugger;
 
 function done() {
   console.log("done");
-  // console.log(AnswerPriceIndices.allResults());
   var pResults = AnswerPriceIndices.allResults();
   var a = Object.keys(pResults);
   a.forEach(function (key) {
     console.log(pResults[key].getMostExpensive());
-  })
+  });
+
+  var lCds = AnswerPriceIndices.longRunningCDs();
+  console.log(lCds);
+  lCds.forEach(function (item) {
+    console.log(item);
+  });
+
+  var authors = AnswerPriceIndices.authorsWithCdAndBook();
+  console.log(authors);
 }
 
 var AnswerPriceIndices = new Answers(5);
