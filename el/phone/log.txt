@@ -1,0 +1,6 @@
+02 Mar 2016 21:55:05,379    User:user1  URL:canonT2i.html   StatusCode:200
+02 Mar 2016 21:55:06,379    User:user2  URL:nikonD5000.html StatusCode:200
+02 Mar 2016 21:55:07,379    User:user1  URL:tripod.html     StatusCode:200
+02 Mar 2016 21:55:07,380    User:user3  URL:canonT2i.html   StatusCode:200
+02 Mar 2016 21:55:07,381    User:user2  URL:tripod.html     StatusCode:200
+02 Mar 2016 21:55:08,381    User:user3  URL:tripod.html     StatusCode:200
