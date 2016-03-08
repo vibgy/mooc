@@ -2,6 +2,7 @@ var jsonParser = require('./jsonCmdLineParser.js');
 var Answers = require('./answers.js');
 var DEBUG = process.env.DEBUG || 0;
 
+// Processes object provided by command line json object parser
 function processObj(o) {
   if (DEBUG) console.log("Object from parser: ", o);
   try {
@@ -13,6 +14,7 @@ function processObj(o) {
   }  
 }
 
+// when the input stream is over, this function gets called
 function done() {
   var pResults = answers.mostExpensiveItems();
   var a = Object.keys(pResults);
@@ -30,6 +32,7 @@ function done() {
   console.log(lastOne);
 }
 
+// initializing the post processing
 var answers = new Answers(
   {
     n: 5,
@@ -42,6 +45,7 @@ var answers = new Answers(
       return false;
     }
   });
+
 // from stdin
 new jsonParser(processObj, process.stdin, done);
 // from file
