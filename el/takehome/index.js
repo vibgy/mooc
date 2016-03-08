@@ -16,18 +16,22 @@ function processObj(o) {
 
 // when the input stream is over, this function gets called
 function done() {
+  console.log("*** 5 Most expensive items *** ");
   var pResults = answers.mostExpensiveItems();
   var a = Object.keys(pResults);
   a.forEach(function (key) {
-    console.log(pResults[key].getMostExpensive());
+    console.log("category: ", key, pResults[key].getMostExpensive());
   });
 
   var lCds = answers.longRunningCDs();
+  console.log("*** Long running CDs *** ");
   console.log(lCds);
 
+  console.log("*** Authors that have published CDs also *** ");
   var authors = answers.authorsWithCdAndBook();
   console.log(authors);
 
+  console.log("*** Items that have a title, track, or chapter that contains a year *** ");
   var lastOne = answers.boringLastResult();
   console.log(lastOne);
 }
@@ -39,7 +43,8 @@ var answers = new Answers(
     runningTimeThreshold: 60, // minutes
     authorFor: ["cd", "book"],
     randomCondition: function (item) {
-      if ((item.title || item.track || item.chapter) && (item.year)) {
+      // TODO: I'm not sure I understood this one properly
+      if ((item.title || item.tracks || item.chapter) && (item.year)) {
         return true;
       }
       return false;
