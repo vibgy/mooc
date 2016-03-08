@@ -1,6 +1,6 @@
 var symbolStack = [];
 var obj;
-var DEBUG = 0;
+var DEBUG = process.env.DEBUG || 0;
 
 // detect these combinations:
 // {

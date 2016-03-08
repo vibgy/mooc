@@ -34,6 +34,9 @@ var longCds = [];
 // Data by author
 var AuthorData = {};
 
+// items have a title, track, or chapter that contains a year
+var titleOrTrackOrChapterWithYear = [];
+
 // this is not a singleton by design. we want to be able to provide multiple trackN indices
 function AnswerPriceIndices(n) {
  return {
@@ -45,6 +48,10 @@ function AnswerPriceIndices(n) {
     } catch (e) {
       PriceIndices[type] = new PriceIdxTrackN(type, this.num);
       PriceIndices[type].checkAndAdd(item);
+    }
+
+    if ((item.title || item.track || item.chapter) && (item.year)) {
+      titleOrTrackOrChapterWithYear.push(item);
     }
 
     if (!AuthorData[item.author]) AuthorData[item.author] = {}; 
@@ -77,6 +84,9 @@ function AnswerPriceIndices(n) {
     return Object.keys(AuthorData).filter(function (item) {
       return AuthorData[item].hasBook && AuthorData[item].hasCd;
     });
+  },
+  boringLastResult: function() {
+    return titleOrTrackOrChapterWithYear;
   }
  };
 }
